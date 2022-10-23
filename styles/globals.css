@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Estilos para el text area con label flotante */
+.form-floating.text-area > .form-control:not(:placeholder-shown) ~ label {
+	opacity: 0;
+}
