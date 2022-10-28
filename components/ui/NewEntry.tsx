@@ -29,7 +29,7 @@ export const NewEntry = () => {
 
 	const onClickGuardar = () => {
 		// validar textarea
-		if (inputValue.length === 0) {
+		if (inputValue.trim().length === 0) {
 			setError(true);
 			setInputValue('');
 			return;

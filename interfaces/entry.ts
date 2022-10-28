@@ -5,4 +5,4 @@ export interface IEntry {
 	status: EntryStatus;
 }
 
-export type EntryStatus = 'pendiente' | 'en progreso' | 'completada';
+export type EntryStatus = 'pendiente' | 'en-progreso' | 'completada';

@@ -1,7 +1,9 @@
-import { FC, PropsWithChildren, useReducer } from 'react';
+import { FC, PropsWithChildren, useEffect, useReducer, useRef } from 'react';
+import { toast } from 'react-toastify';
 
 import { EntriesContext, entriesReducer } from './';
-import { generarId } from '../../utils';
+import { entriesApi } from '../../axios/';
+
 import { IEntry } from '../../interfaces';
 
 export interface EntriesState {
@@ -9,47 +11,64 @@ export interface EntriesState {
 }
 
 const ENTRIES_INITIAL_STATE: EntriesState = {
-	entries: [
-		{
-			_id: generarId(),
-			descripcion:
-				'Pendiente: Fugiat occaecat aute nostrud adipisicing cupidatat mollit commodo ea dolore nisi.',
-			status: 'pendiente',
-			createdAt: Date.now()
-		},
-		{
-			_id: generarId(),
-			descripcion:
-				'En Proceso: Qui pariatur nostrud adipisicing nulla mollit consectetur culpa eiusmod ullamco qui cupidatat ad.',
-			status: 'en progreso',
-			createdAt: Date.now() - 1000000
-		},
-		{
-			_id: generarId(),
-			descripcion:
-				'Completada: Ullamco sunt ipsum laboris anim non sint deserunt non pariatur sint sunt.',
-			status: 'completada',
-			createdAt: Date.now() - 100000
-		}
-	]
+	entries: []
 };
 
 export const EntriesProvider: FC<PropsWithChildren> = ({ children }) => {
 	const [state, dispatch] = useReducer(entriesReducer, ENTRIES_INITIAL_STATE);
+	const effectRan = useRef(true); // Evitamos doble useEffect en stricMode
 
-	const guardarEntrada = (descripcion: string) => {
-		const nuevaEntrada: IEntry = {
-			_id: generarId(),
-			descripcion,
-			createdAt: Date.now(),
-			status: 'pendiente'
+	// CSR - Client Side Rendering
+	useEffect(() => {
+		// Evitamos doble useEffect en stricMode
+		if (effectRan.current) {
+			const consultarApi = async () => {
+				const { data } = await entriesApi.get<IEntry[]>('/entries');
+
+				dispatch({ type: '[Entries] - Cargar Entradas', payload: data });
+			};
+
+			consultarApi();
+		}
+
+		// Ejecucion en el Desmontaje del effect
+		return () => {
+			effectRan.current = false;
 		};
+	}, []);
 
-		dispatch({ type: '[Entries] - Guardar Entrada', payload: nuevaEntrada });
+	/**
+	 * Métodos
+	 */
+	const guardarEntrada = async (descripcion: string) => {
+		try {
+			const { data } = await entriesApi.post<IEntry>('/entries', { descripcion });
+
+			dispatch({ type: '[Entries] - Guardar Entrada', payload: data });
+		} catch (error: any) {
+			console.log(error.response.data);
+		}
 	};
 
-	const actualizarEntrada = (entry: IEntry) => {
-		dispatch({ type: '[Entries] - Actualizar', payload: entry });
+	const actualizarEntrada = async (
+		{ _id, descripcion, status }: IEntry,
+		mostrarAlerta = false
+	) => {
+		try {
+			const { data } = await entriesApi.put<IEntry>(`/entries/${_id}`, {
+				descripcion,
+				status
+			});
+
+			// Lanzamos la notificación
+			if (mostrarAlerta) {
+				toast.success('Guardado Correctamente');
+			}
+
+			dispatch({ type: '[Entries] - Actualizar', payload: data });
+		} catch (error: any) {
+			console.log(error.response.data);
+		}
 	};
 
 	return (

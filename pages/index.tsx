@@ -21,7 +21,7 @@ const HomePage: NextPage = () => {
 					<div className='flex flex-col h-full overflow-y-auto'>
 						<h3 className='text-center mb-4'>En Progreso</h3>
 
-						<EntryList status='en progreso' />
+						<EntryList status='en-progreso' />
 					</div>
 				</div>
 

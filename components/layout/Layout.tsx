@@ -1,5 +1,7 @@
 import { FC, PropsWithChildren } from 'react';
 import Head from 'next/head';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { Navbar, Sidebar } from '../ui';
 
@@ -12,7 +14,7 @@ export const Layout: FC<PropsWithChildren<Props>> = ({
 	titulo = 'OpenJira'
 }) => {
 	return (
-		<div className='min-h-screen bg-slate-800 text-white flex flex-col'>
+		<div className='min-h-screen bg-slate-800 text-white flex flex-col items-center'>
 			<Head>
 				<title>{titulo}</title>
 			</Head>
@@ -23,6 +25,8 @@ export const Layout: FC<PropsWithChildren<Props>> = ({
 			<Sidebar />
 
 			<>{children}</>
+
+			<ToastContainer />
 		</div>
 	);
 };

@@ -2,6 +2,7 @@ import { EntriesState } from './';
 import { IEntry } from '../../interfaces';
 
 type EntriesActionType =
+	| { type: '[Entries] - Cargar Entradas'; payload: IEntry[] }
 	| { type: '[Entries] - Guardar Entrada'; payload: IEntry }
 	| { type: '[Entries] - Actualizar'; payload: IEntry };
 
@@ -10,6 +11,11 @@ export const entriesReducer = (
 	action: EntriesActionType
 ): EntriesState => {
 	switch (action.type) {
+		case '[Entries] - Cargar Entradas':
+			return {
+				entries: [...action.payload]
+			};
+
 		case '[Entries] - Guardar Entrada':
 			return {
 				...state,

@@ -8,7 +8,7 @@ interface ContextProps {
 
 	// Metodos
 	guardarEntrada: (description: string) => void;
-	actualizarEntrada: (entry: IEntry) => void;
+	actualizarEntrada: (entry: IEntry, mostrarAlerta?: boolean) => void;
 }
 
 export const EntriesContext = createContext({} as ContextProps);

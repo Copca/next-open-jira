@@ -40,12 +40,8 @@ export const EntryList: FC<Props> = ({ status }) => {
 	};
 
 	return (
-		// TODO: Realizar el Drop
-
 		<div
-			className={`flex-1 rounded ${
-				isDragging && 'bg-slate-500 border border-dashed'
-			}`} // habilitamos el area del Drop
+			className={`flex-1  ${isDragging && 'bg-slate-500 border border-dashed'}`} // habilitamos el area del Drop
 			onDragOver={allowDrop}
 			onDrop={onDropEntry}
 		>

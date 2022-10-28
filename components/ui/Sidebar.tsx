@@ -2,7 +2,7 @@ import { MdClose, MdInbox, MdStars, MdEmail, MdDrafts } from 'react-icons/md';
 
 export const Sidebar = () => {
 	return (
-		<div className='flex space-x-2'>
+		<aside className='flex space-x-2'>
 			<div>
 				{/* <button
 					className='inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg  focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out'
@@ -71,6 +71,6 @@ export const Sidebar = () => {
 					</div>
 				</div>
 			</div>
-		</div>
+		</aside>
 	);
 };
