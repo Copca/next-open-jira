@@ -72,17 +72,15 @@ export const EntriesProvider: FC<PropsWithChildren> = ({ children }) => {
 	};
 
 	const borrarEntrada = async (id: string) => {
-		// TODO: elimianr entrada
-		dispatch({ type: '[Entries] - Borrar Entrada', payload: id });
-
 		try {
+			const { data } = await entriesApi.delete(`/entries/${id}`);
+
+			toast.success(data.message);
+
+			dispatch({ type: '[Entries] - Borrar Entrada', payload: id });
 		} catch (error: any) {
 			console.log(error.response.data);
 		}
-
-		setTimeout(() => {
-			toast.success('Entrada borrada');
-		}, 50);
 	};
 
 	return (

@@ -11,7 +11,6 @@ export const ModalAlerta = () => {
 
 	const onClickBorrar = () => {
 		borrarEntrada(id);
-
 		router.push('/');
 	};
 

@@ -13,6 +13,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
 		case 'GET':
 			return getEntryById(req, res);
 
+		case 'DELETE':
+			return deleteEntryById(req, res);
+
 		default:
 			return res
 				.status(400)
@@ -23,6 +26,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
 /**
  * Funciones
  */
+
+// PUT /api/entries/[id]
 const updateEntry = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 	const { id } = req.query;
 
@@ -73,6 +78,7 @@ const updateEntry = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 	}
 };
 
+// GET /api/entries/[id]
 const getEntryById = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 	const { id } = req.query;
 
@@ -88,6 +94,25 @@ const getEntryById = async (req: NextApiRequest, res: NextApiResponse<Data>) => 
 		}
 
 		return res.status(200).json(entrada);
+	} catch (error) {
+		await db.disconnect();
+		console.log(error);
+		return res.status(500).json({ message: 'Revise logs del servidor' });
+	}
+};
+
+// DELETE /api/entries/[id]
+const deleteEntryById = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+	const { id } = req.query;
+
+	try {
+		await db.connect();
+
+		await Entry.findByIdAndDelete(id);
+
+		await db.disconnect();
+
+		return res.status(200).json({ message: 'Entrada borrada correctamente' });
 	} catch (error) {
 		await db.disconnect();
 		console.log(error);
