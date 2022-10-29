@@ -60,15 +60,29 @@ export const EntriesProvider: FC<PropsWithChildren> = ({ children }) => {
 				status
 			});
 
+			dispatch({ type: '[Entries] - Actualizar', payload: data });
+
 			// Lanzamos la notificación
 			if (mostrarAlerta) {
 				toast.success('Guardado Correctamente');
 			}
-
-			dispatch({ type: '[Entries] - Actualizar', payload: data });
 		} catch (error: any) {
 			console.log(error.response.data);
 		}
+	};
+
+	const borrarEntrada = async (id: string) => {
+		// TODO: elimianr entrada
+		dispatch({ type: '[Entries] - Borrar Entrada', payload: id });
+
+		try {
+		} catch (error: any) {
+			console.log(error.response.data);
+		}
+
+		setTimeout(() => {
+			toast.success('Entrada borrada');
+		}, 50);
 	};
 
 	return (
@@ -79,7 +93,8 @@ export const EntriesProvider: FC<PropsWithChildren> = ({ children }) => {
 
 				// Metodos
 				guardarEntrada,
-				actualizarEntrada
+				actualizarEntrada,
+				borrarEntrada
 			}}
 		>
 			{children}

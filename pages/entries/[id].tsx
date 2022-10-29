@@ -1,12 +1,17 @@
 // * SSR Server Side Rendering
 
+import { useContext } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { BiTrash } from 'react-icons/bi';
 
 import { dbEntries } from '../../database';
+import { EntriesContext } from '../../context/entries/EntriesContext';
 import { Layout } from '../../components/layout/Layout';
 import { EntryForm } from '../../components/ui/EntryForm';
 import { IEntry } from '../../interfaces/entry';
+import { ModalAlerta } from '../../components/ui';
+// import { ModalAlerta } from '../../components/ui/ModalAlerta';
 
 interface Props {
 	entry: IEntry;
@@ -22,11 +27,16 @@ const EntryPageId: NextPage<Props> = ({ entry }) => {
 					type='button'
 					data-mdb-ripple='true'
 					data-mdb-ripple-color='light'
+					data-bs-toggle='modal'
+					data-bs-target='#exampleModal'
 					className='absolute bottom-20 right-20 flex items-center justify-center rounded-full bg-red-500 text-white leading-normal shadow-md hover:bg-red-700 hover:shadow-lg transition duration-150 ease-in-out w-20 h-20'
+					// onClick={onClickBorrar}
 				>
 					<BiTrash className='text-3xl' />
 				</button>
 			</div>
+
+			<ModalAlerta />
 		</Layout>
 	);
 };
